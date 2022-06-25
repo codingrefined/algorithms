@@ -20,13 +20,28 @@ public class DFS {
             if (!visited[curr.key]) {
                 visited[curr.key] = true;
 
-                System.out.print(curr.key + " ");
-
                 for (Edge e : curr.outgoing) {
                     stack.push(g.get(e.dest));
                 }
             }
         }
+    }
+
+    public void recDFS(Graph g, int start) {
+
+        boolean[] visited = new boolean[g.size()];
+        recDFSHelper(g, start, visited);
+    }
+    private void recDFSHelper(Graph g, int curr, boolean[] visited) {
+
+        visited[curr] = true;
+
+        for (Edge e : g.get(curr).outgoing) {
+            if (!visited[e.dest]) {
+                recDFSHelper(g, e.dest, visited);
+            }
+        }
+        System.out.print(curr + " ");       // --- output is printed in reverse order
     }
 
     public static void main(String[] args) {
@@ -47,5 +62,7 @@ public class DFS {
 
         DFS dfs = new DFS();
         dfs.dfs(ug, 0);     // 0 2 5 6 7 3 4 1
+
+        dfs.recDFS(ug, 0);
     }
 }
